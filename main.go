@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"flag"
 	"log"
 	"os"
@@ -9,7 +10,7 @@ import (
 
 func main() {
 	// project := flag.String("project", "", "The Google Cloud Platform project ID. required.")
-	cmd := flag.String("cmd", "", "cmd is required. cmd is upload or download")
+	cmd := flag.String("cmd", "", "cmd is required. cmd is upload or download or printkey")
 	bucket := flag.String("bucket", "", "bucket is required.")
 	object := flag.String("object", "", "object is required.")
 	flag.Parse()
@@ -43,6 +44,9 @@ func main() {
 			os.Exit(1)
 		}
 		log.Printf("done.file = %s", string(file))
+	case "printkey":
+		encryptKey := GetEncryptKey(32)
+		log.Printf(base64.URLEncoding.EncodeToString(encryptKey))
 	default:
 		log.Println("The cmd flog is upload or download")
 	}
